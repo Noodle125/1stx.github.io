@@ -16,9 +16,9 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // DOM elements
-const usernameInput = document.getElementById("username-input");
-const uploadPhotoButton = document.getElementById("upload-photo");
+const profilePicture = document.getElementById("profile-picture");
 const photoInput = document.getElementById("photo-input");
+const usernameInput = document.getElementById("username-input");
 const bioInput = document.getElementById("bio-input");
 const updateProfileButton = document.getElementById("update-profile");
 const messageHistory = document.getElementById("message-history");
@@ -36,9 +36,9 @@ updateProfileButton.addEventListener("click", () => {
 });
 
 // Upload photo
-uploadPhotoButton.addEventListener("click", () => {
+function uploadPhoto() {
     photoInput.click();
-});
+}
 
 // Send message
 sendButton.addEventListener("click", () => {
