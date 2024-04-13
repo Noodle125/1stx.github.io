@@ -9,9 +9,14 @@
 <body>
     <div class="container">
         <div class="profile">
-            <input type="text" id="username-input" placeholder="Enter your username">
-            <button id="upload-photo">Upload Photo</button>
+            <div id="profile-picture" class="profile-picture" onclick="uploadPhoto()">
+                <img id="photo-img" src="blank-profile.png" alt="Profile Picture" class="photo-img">
+                <div class="overlay">
+                    <span class="plus">+</span>
+                </div>
+            </div>
             <input type="file" id="photo-input" accept="image/*" style="display: none;">
+            <input type="text" id="username-input" placeholder="Enter your username">
             <input type="text" id="bio-input" placeholder="Enter your bio">
             <button id="update-profile">Update Profile</button>
         </div>
