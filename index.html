@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1stX - File Upload</title>
+    <title>Public Chat</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>1stX</h1>
-    <form id="upload-form" enctype="multipart/form-data">
-        <input type="file" id="file-input" name="file" multiple>
-        <button type="submit">Upload</button>
-    </form>
+    <div class="container">
+        <div class="profile">
+            <input type="text" id="username-input" placeholder="Enter your username">
+            <button id="upload-photo">Upload Photo</button>
+            <input type="file" id="photo-input" accept="image/*" style="display: none;">
+            <input type="text" id="bio-input" placeholder="Enter your bio">
+            <button id="update-profile">Update Profile</button>
+        </div>
+        <div class="chat">
+            <div id="message-history"></div>
+            <input type="text" id="message-input" placeholder="Type your message">
+            <input type="file" id="file-input" accept="image/*, .pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx" style="display: none;">
+            <button id="send-message">Send</button>
+            <button id="choose-file">Choose File</button>
+        </div>
+    </div>
 
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
