@@ -5,6 +5,9 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Serve static files from the "public" directory
+app.use(express.static("public"));
+
 // Configure multer for file upload
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,11 +20,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
-// Serve HTML file
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "index.html"));
-});
 
 // Handle file upload
 app.post("/upload", upload.array("files"), (req, res) => {
