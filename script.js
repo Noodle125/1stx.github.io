@@ -32,7 +32,7 @@ updateProfileButton.addEventListener("click", () => {
     const username = usernameInput.value.trim();
     const bio = bioInput.value.trim();
     // Update user profile in Firestore
-    // For example: firestore.collection("users").doc(userId).set({ username, bio });
+    // firestore.collection("users").doc(userId).set({ username, bio });
 });
 
 // Upload photo
@@ -45,7 +45,7 @@ sendButton.addEventListener("click", () => {
     const message = messageInput.value.trim();
     if (message !== "") {
         // Send message to Firestore
-        // For example: firestore.collection("messages").add({ senderId, message });
+        // firestore.collection("messages").add({ senderId, message });
         messageInput.value = "";
     }
 });
@@ -68,11 +68,12 @@ firestore.collection("messages").onSnapshot((snapshot) => {
     snapshot.forEach((doc) => {
         const message = doc.data().message;
         // Display message in the message history
+        // Create a new message element and append it to messageHistory
     });
 });
 
 // Listen for user profile updates from Firestore
-// For example: firestore.collection("users").doc(userId).onSnapshot((doc) => {
+// firestore.collection("users").doc(userId).onSnapshot((doc) => {
 //     const user = doc.data();
 //     // Update profile information
 // });
@@ -83,7 +84,7 @@ messageHistory.addEventListener("click", (event) => {
     if (target.classList.contains("username")) {
         const username = target.textContent;
         // Display user profile
-        // For example: firestore.collection("users").where("username", "==", username).get().then((querySnapshot) => {
+        // firestore.collection("users").where("username", "==", username).get().then((querySnapshot) => {
         //     querySnapshot.forEach((doc) => {
         //         const user = doc.data();
         //         // Show user profile
