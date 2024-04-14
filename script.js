@@ -31,7 +31,7 @@ const chooseFileButton = document.getElementById("choose-file");
 updateProfileButton.addEventListener("click", () => {
     const username = usernameInput.value.trim();
     const bio = bioInput.value.trim();
-    // Update user profile in Firestore
+    // Example: Update user profile in Firestore
     // firestore.collection("users").doc(userId).set({ username, bio });
 });
 
@@ -44,7 +44,7 @@ function uploadPhoto() {
 sendButton.addEventListener("click", () => {
     const message = messageInput.value.trim();
     if (message !== "") {
-        // Send message to Firestore
+        // Example: Send message to Firestore
         // firestore.collection("messages").add({ senderId, message });
         messageInput.value = "";
     }
@@ -59,7 +59,7 @@ chooseFileButton.addEventListener("click", () => {
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
     if (file) {
-        // Handle file upload
+        // Example: Handle file upload
     }
 });
 
@@ -67,23 +67,17 @@ fileInput.addEventListener("change", () => {
 firestore.collection("messages").onSnapshot((snapshot) => {
     snapshot.forEach((doc) => {
         const message = doc.data().message;
-        // Display message in the message history
+        // Example: Display message in the message history
         // Create a new message element and append it to messageHistory
     });
 });
-
-// Listen for user profile updates from Firestore
-// firestore.collection("users").doc(userId).onSnapshot((doc) => {
-//     const user = doc.data();
-//     // Update profile information
-// });
 
 // Listen for profile clicks
 messageHistory.addEventListener("click", (event) => {
     const target = event.target;
     if (target.classList.contains("username")) {
         const username = target.textContent;
-        // Display user profile
+        // Example: Display user profile
         // firestore.collection("users").where("username", "==", username).get().then((querySnapshot) => {
         //     querySnapshot.forEach((doc) => {
         //         const user = doc.data();
