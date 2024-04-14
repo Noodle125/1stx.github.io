@@ -12,8 +12,8 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Get a reference to the Firebase database
-const database = firebase.database();
+// Initialize Firestore
+const firestore = firebase.firestore();
 
 // DOM elements
 const profilePicture = document.getElementById("profile-picture");
@@ -31,8 +31,8 @@ const chooseFileButton = document.getElementById("choose-file");
 updateProfileButton.addEventListener("click", () => {
     const username = usernameInput.value.trim();
     const bio = bioInput.value.trim();
-    // Update user profile in the database
-    // For example: database.ref("users").child(userId).set({ username, bio });
+    // Update user profile in Firestore
+    // For example: firestore.collection("users").doc(userId).set({ username, bio });
 });
 
 // Upload photo
@@ -44,8 +44,8 @@ function uploadPhoto() {
 sendButton.addEventListener("click", () => {
     const message = messageInput.value.trim();
     if (message !== "") {
-        // Send message to the database
-        // For example: database.ref("messages").push({ senderId, message });
+        // Send message to Firestore
+        // For example: firestore.collection("messages").add({ senderId, message });
         messageInput.value = "";
     }
 });
@@ -63,15 +63,17 @@ fileInput.addEventListener("change", () => {
     }
 });
 
-// Listen for new messages from the database
-database.ref("messages").on("child_added", (snapshot) => {
-    const message = snapshot.val();
-    // Display message in the message history
+// Listen for new messages from Firestore
+firestore.collection("messages").onSnapshot((snapshot) => {
+    snapshot.forEach((doc) => {
+        const message = doc.data().message;
+        // Display message in the message history
+    });
 });
 
-// Listen for user profile updates from the database
-// For example: database.ref("users").child(userId).on("value", (snapshot) => {
-//     const user = snapshot.val();
+// Listen for user profile updates from Firestore
+// For example: firestore.collection("users").doc(userId).onSnapshot((doc) => {
+//     const user = doc.data();
 //     // Update profile information
 // });
 
@@ -81,9 +83,11 @@ messageHistory.addEventListener("click", (event) => {
     if (target.classList.contains("username")) {
         const username = target.textContent;
         // Display user profile
-        // For example: database.ref("users").orderByChild("username").equalTo(username).once("value", (snapshot) => {
-        //     const user = snapshot.val();
-        //     // Show user profile
+        // For example: firestore.collection("users").where("username", "==", username).get().then((querySnapshot) => {
+        //     querySnapshot.forEach((doc) => {
+        //         const user = doc.data();
+        //         // Show user profile
+        //     });
         // });
     }
 });
