@@ -1,4 +1,4 @@
-// Your Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyADmNV47sId0qdGDiWvl6awe1_5PSRncjM",
   authDomain: "ndx-b1e1d.firebaseapp.com",
@@ -11,58 +11,53 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const database = firebase.firestore();
-const auth = firebase.auth();
 
-auth.signInAnonymously()
-    .catch(function(error) {
-        console.error("Error signing in anonymously:", error);
-    });
+// Get a reference to the Firebase database
+const database = firebase.database();
 
-function sendMessage() {
-    const messageInput = document.getElementById('message-input');
-    const message = messageInput.value.trim();
-    
-    if (message !== '') {
-        database.collection('messages').add({
-            message: message,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            uid: auth.currentUser.uid
-        })
-        .then(() => {
-            messageInput.value = '';
-        })
-        .catch((error) => {
-            console.error("Error sending message:", error);
-        });
+document.addEventListener("DOMContentLoaded", function() {
+    const usernameInput = document.getElementById("username-input");
+    const messageInput = document.getElementById("message-input");
+    const submitButton = document.getElementById("submit-button");
+    const chatMessages = document.getElementById("chat-messages");
+    const radioPlayer = document.getElementById("radio-player");
+
+    // Function to add a message to the chat
+    function addMessage(username, message) {
+        const messageElement = document.createElement("div");
+        messageElement.textContent = username + ": " + message;
+        chatMessages.appendChild(messageElement);
     }
-}
 
-database.collection('messages')
-    .orderBy('timestamp')
-    .onSnapshot((snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-            if (change.type === 'added') {
-                const messageData = change.doc.data();
-                const message = messageData.message;
-                const uid = messageData.uid;
-                const timestamp = messageData.timestamp.toDate();
-                
-                const chatBox = document.getElementById('chat-box');
-                const messageElement = document.createElement('div');
-                const timestampElement = document.createElement('div');
-                
-                messageElement.textContent = message;
-                timestampElement.textContent = timestamp.toLocaleString();
-                timestampElement.classList.add('timestamp');
-                
-                if (uid === auth.currentUser.uid) {
-                    messageElement.classList.add('own-message');
-                }
-                
-                messageElement.appendChild(timestampElement);
-                chatBox.appendChild(messageElement);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }
-        });
+    // Event listener for the submit button
+    submitButton.addEventListener("click", function() {
+        const username = usernameInput.value.trim();
+        const messageText = messageInput.value.trim();
+        if (username !== "" && messageText !== "") {
+            // Store message in Firebase Realtime Database
+            database.ref("messages").push().set({
+                username: username,
+                message: messageText
+            });
+            messageInput.value = ""; // Clear message input
+        }
     });
+
+    // Load existing messages from Firebase Realtime Database
+    database.ref("messages").on("child_added", function(snapshot) {
+        const messageData = snapshot.val();
+        const username = messageData.username;
+        const message = messageData.message;
+        addMessage(username, message);
+    });
+
+    // Get radio stream URL from Firebase
+    const radioStreamRef = database.ref("radioStream");
+    radioStreamRef.once("value", function(snapshot) {
+        const radioStreamUrl = snapshot.val();
+        if (radioStreamUrl) {
+            // Update audio player source with radio stream URL
+            radioPlayer.src = radioStreamUrl;
+        }
+    });
+});
