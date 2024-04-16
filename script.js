@@ -1,12 +1,12 @@
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyADmNV47sId0qdGDiWvl6awe1_5PSRncjM",
-  authDomain: "ndx-b1e1d.firebaseapp.com",
-  databaseURL: "https://ndx-b1e1d-default-rtdb.firebaseio.com",
-  projectId: "ndx-b1e1d",
-  storageBucket: "ndx-b1e1d.appspot.com",
-  messagingSenderId: "512322480998",
-  appId: "1:512322480998:web:d8d8948413e254f330f6a7"
+    apiKey: "AIzaSyAlLRg-irrAb1RNC-zvWWkb79GWqLe0XDc",
+    authDomain: "stx-373b2.firebaseapp.com",
+    databaseURL: "https://stx-373b2-default-rtdb.firebaseio.com",
+    projectId: "stx-373b2",
+    storageBucket: "stx-373b2.appspot.com",
+    messagingSenderId: "714624842537",
+    appId: "1:714624842537:web:54fc08b0fdbd6226e1d538"
 };
 
 // Initialize Firebase
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const submitButton = document.getElementById("submit-button");
     const chatMessages = document.getElementById("chat-messages");
     const radioPlayer = document.getElementById("radio-player");
+    const radioTitle = document.getElementById("radio-title");
 
     // Function to add a message to the chat
     function addMessage(username, message) {
@@ -57,7 +58,24 @@ document.addEventListener("DOMContentLoaded", function() {
         const radioStreamUrl = snapshot.val();
         if (radioStreamUrl) {
             // Update audio player source with radio stream URL
-            radioPlayer.src = radioStreamUrl;
+            radioPlayer.src = https://firebasestorage.googleapis.com/v0/b/ndx-b1e1d.appspot.com/o/Musical%20Students%20-%20%20%20%20G%20Latt%20selection%20songs.mp3?alt=media&token=8b42c42b-351c-44b4-b834-896aea500571;
         }
+    });
+
+    // Toggle Radio Functionality
+    const toggleButton = document.getElementById("toggle-button");
+    toggleButton.addEventListener("click", function() {
+        if (radioPlayer.paused) {
+            radioPlayer.play(); // Start playback
+            toggleButton.textContent = "Pause Radio";
+        } else {
+            radioPlayer.pause(); // Pause playback
+            toggleButton.textContent = "Play Radio";
+        }
+    });
+
+    // Update Radio Title Functionality
+    radioTitle.addEventListener("mouseover", function() {
+        radioTitle.stop();
     });
 });
