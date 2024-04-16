@@ -1,88 +1,67 @@
-// Firebase configuration
+// Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyADmNV47sId0qdGDiWvl6awe1_5PSRncjM",
-  authDomain: "ndx-b1e1d.firebaseapp.com",
-  databaseURL: "https://ndx-b1e1d-default-rtdb.firebaseio.com",
-  projectId: "ndx-b1e1d",
-  storageBucket: "ndx-b1e1d.appspot.com",
-  messagingSenderId: "512322480998",
-  appId: "1:512322480998:web:d8d8948413e254f330f6a7"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const database = firebase.firestore();
+const auth = firebase.auth();
 
-// Initialize Firestore
-const firestore = firebase.firestore();
+auth.signInAnonymously()
+    .catch(function(error) {
+        console.error("Error signing in anonymously:", error);
+    });
 
-// DOM elements
-const profilePicture = document.getElementById("profile-picture");
-const photoInput = document.getElementById("photo-input");
-const usernameInput = document.getElementById("username-input");
-const bioInput = document.getElementById("bio-input");
-const updateProfileButton = document.getElementById("update-profile");
-const messageHistory = document.getElementById("message-history");
-const messageInput = document.getElementById("message-input");
-const fileInput = document.getElementById("file-input");
-const sendButton = document.getElementById("send-message");
-const chooseFileButton = document.getElementById("choose-file");
-
-// Update profile
-updateProfileButton.addEventListener("click", () => {
-    const username = usernameInput.value.trim();
-    const bio = bioInput.value.trim();
-    // Example: Update user profile in Firestore
-    // firestore.collection("users").doc(userId).set({ username, bio });
-});
-
-// Upload photo
-function uploadPhoto() {
-    photoInput.click();
+function sendMessage() {
+    const messageInput = document.getElementById('message-input');
+    const message = messageInput.value.trim();
+    
+    if (message !== '') {
+        database.collection('messages').add({
+            message: message,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            uid: auth.currentUser.uid
+        })
+        .then(() => {
+            messageInput.value = '';
+        })
+        .catch((error) => {
+            console.error("Error sending message:", error);
+        });
+    }
 }
 
-// Send message
-sendButton.addEventListener("click", () => {
-    const message = messageInput.value.trim();
-    if (message !== "") {
-        // Example: Send message to Firestore
-        // firestore.collection("messages").add({ senderId, message });
-        messageInput.value = "";
-    }
-});
-
-// Choose file
-chooseFileButton.addEventListener("click", () => {
-    fileInput.click();
-});
-
-// Handle file selection
-fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
-    if (file) {
-        // Example: Handle file upload
-    }
-});
-
-// Listen for new messages from Firestore
-firestore.collection("messages").onSnapshot((snapshot) => {
-    snapshot.forEach((doc) => {
-        const message = doc.data().message;
-        // Example: Display message in the message history
-        // Create a new message element and append it to messageHistory
+database.collection('messages')
+    .orderBy('timestamp')
+    .onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+            if (change.type === 'added') {
+                const messageData = change.doc.data();
+                const message = messageData.message;
+                const uid = messageData.uid;
+                const timestamp = messageData.timestamp.toDate();
+                
+                const chatBox = document.getElementById('chat-box');
+                const messageElement = document.createElement('div');
+                const timestampElement = document.createElement('div');
+                
+                messageElement.textContent = message;
+                timestampElement.textContent = timestamp.toLocaleString();
+                timestampElement.classList.add('timestamp');
+                
+                if (uid === auth.currentUser.uid) {
+                    messageElement.classList.add('own-message');
+                }
+                
+                messageElement.appendChild(timestampElement);
+                chatBox.appendChild(messageElement);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
     });
-});
-
-// Listen for profile clicks
-messageHistory.addEventListener("click", (event) => {
-    const target = event.target;
-    if (target.classList.contains("username")) {
-        const username = target.textContent;
-        // Example: Display user profile
-        // firestore.collection("users").where("username", "==", username).get().then((querySnapshot) => {
-        //     querySnapshot.forEach((doc) => {
-        //         const user = doc.data();
-        //         // Show user profile
-        //     });
-        // });
-    }
-});
