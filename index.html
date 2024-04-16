@@ -3,27 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chit Chat</title>
+    <title>Chit Chat & Radio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="chat-container">
-        <!-- Chat Box -->
-        <div class="username-box">
-            <input type="text" class="username-input" id="username-input" placeholder="Enter your username...">
-        </div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="message-box">
-            <input type="text" class="message-input" id="message-input" placeholder="Type your message...">
-            <button type="button" id="submit-button">Send</button>
+    <div class="container">
+        <!-- Public Chat -->
+        <div class="public-chat">
+            <div class="username-box">
+                <input type="text" class="username-input" id="username-input" placeholder="Enter your username...">
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="message-box">
+                <input type="text" class="message-input" id="message-input" placeholder="Type your message...">
+                <button type="button" id="submit-button">Send</button>
+            </div>
         </div>
 
-        <!-- Radio Station Player -->
-        <div class="radio-player">
-            <audio controls id="radio-player">
-                <source src="" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
+        <!-- Radio Station -->
+        <div class="radio-container">
+            <!-- Radio Image -->
+            <div class="radio-image">
+                <img src="photo_2024-04-12_03-20-41.jpg" alt="Radio Station Image" id="radio-image">
+            </div>
+
+            <!-- Radio Title -->
+            <div class="radio-title">
+                <marquee behavior="scroll" direction="left" id="radio-title">Chit Chat Radio - Your Favorite Station!</marquee>
+            </div>
+
+            <!-- Radio Player Controls -->
+            <div class="radio-controls">
+                <button id="toggle-button">Toggle Radio</button>
+            </div>
         </div>
     </div>
 
