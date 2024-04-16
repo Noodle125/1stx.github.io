@@ -3,39 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-time Chat</title>
+    <title>Chit Chat</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="chat-container">
-        <div id="chat-box"></div>
-        <div class="input-container">
-            <input type="text" id="message-input" placeholder="Type your message...">
-            <button onclick="sendMessage()">Send</button>
+        <!-- Chat Box -->
+        <div class="username-box">
+            <input type="text" class="username-input" id="username-input" placeholder="Enter your username...">
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="message-box">
+            <input type="text" class="message-input" id="message-input" placeholder="Type your message...">
+            <button type="button" id="submit-button">Send</button>
+        </div>
+
+        <!-- Radio Station Player -->
+        <div class="radio-player">
+            <audio controls id="radio-player">
+                <source src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
         </div>
     </div>
 
-    <div class="slideshow-container">
-        <div class="mySlides fade">
-            <img src="slide1.jpg" style="width:100%">
-        </div>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-database.js"></script>
 
-        <div class="mySlides fade">
-            <img src="slide2.jpg" style="width:100%">
-        </div>
-
-        <div class="mySlides fade">
-            <img src="slide3.jpg" style="width:100%">
-        </div>
-
-        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
+    <!-- Your Script File -->
     <script src="script.js"></script>
-    <script src="slideshow.js"></script>
 </body>
 </html>
